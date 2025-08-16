@@ -1,0 +1,34 @@
+# Virtual environment
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# Big datasets and archives
+assets/*.csv
+assets/*.zip
+assets/genome_scores.csv
+assets/rating.csv
+assets/MovieLens 20M Dataset.zip
+*.csv
+*.zip
+*.tgz
+*.gz
+*.tar

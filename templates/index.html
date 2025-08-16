@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommender</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    
+    <div class="container">
+        <div class="main-card">
+            <header>
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+                </div>
+                <h1>Movie Recommender</h1>
+                <p class="subtitle">Discover your next favorite movie</p>
+            </header>
+
+            <main>
+                <form action="{{ url_for('recommend') }}" method="POST" class="search-form">
+                    <div class="input-container">
+                        <input type="text" id="movie_name" name="movie" placeholder="Enter a movie title..." autocomplete="off" required>
+                        <div class="input-icon">🎬</div>
+                    </div>
+                    <div class="suggestion-box">
+                        <div id="suggestions"></div>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span>Get Recommendations</span>
+                        <div class="btn-icon">✨</div>
+                    </button>
+                </form>
+            </main>
+
+            <footer>
+                <p>Powered by MovieLens 20M Dataset</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const movieInput = document.getElementById('movie_name');
+            const suggestionBox = document.getElementById('suggestions');
+            
+            // Auto-suggest functionality
+            movieInput.addEventListener('input', function() {
+                let query = this.value;
+                
+                if (query.length > 1) {
+                    fetch(`/suggest?q=${query}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            suggestionBox.innerHTML = '';
+                            suggestionBox.classList.add('active');
+                            
+                            data.forEach((item, index) => {
+                                let div = document.createElement('div');
+                                div.textContent = item;
+                                div.classList.add('suggestion-item');
+                                div.style.animationDelay = `${index * 0.05}s`;
+                                
+                                div.onclick = function() {
+                                    movieInput.value = item;
+                                    suggestionBox.innerHTML = '';
+                                    suggestionBox.classList.remove('active');
+                                };
+                                
+                                suggestionBox.appendChild(div);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching suggestions:', error);
+                        });
+                } else {
+                    suggestionBox.innerHTML = '';
+                    suggestionBox.classList.remove('active');
+                }
+            });
+            
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.input-container')) {
+                    suggestionBox.innerHTML = '';
+                    suggestionBox.classList.remove('active');
+                }
+            });
+            
+            // Create floating particles
+            function createParticle() {
+                const particle = document.createElement('div');
+                const size = Math.random() * 6 + 2;
+                particle.style.cssText = `
+                    position: fixed;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: radial-gradient(circle, #c084fc, transparent);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: -1;
+                    left: ${Math.random() * 100}vw;
+                    top: 100vh;
+                    opacity: ${Math.random() * 0.8 + 0.2};
+                    animation: floatUp ${3 + Math.random() * 4}s linear forwards;
+                `;
+                
+                document.body.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 8000);
+            }
+            
+            // Create particles periodically
+            setInterval(createParticle, 2000);
+            
+            // Add CSS for floating particles
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatUp {
+                    to {
+                        transform: translateY(-100vh) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Add typing animation effect
+            const title = document.querySelector('h1');
+            title.style.overflow = 'hidden';
+            title.style.whiteSpace = 'nowrap';
+            title.style.animation = 'typing 2s steps(40, end) 0.5s both, blink-caret 0.75s step-end 2.5s 3';
+        });
+    </script>
+</body>
+</html>

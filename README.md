@@ -1,7 +1,7 @@
 🎬 Flask Movie Recommender System
 
 A content-based movie recommendation web application built with Flask that uses the MovieLens 20M Dataset.
-It suggests movies based on their similarity to a movie entered by the user.
+It suggests movies based on their similarity to a movie entered by the user, providing an intuitive and interactive way to explore films.
 
 📌 Features
 
@@ -9,103 +9,116 @@ Search for any movie in the MovieLens 20M dataset.
 
 Get a list of similar movies instantly.
 
-Simple, browser-based interface.
+Simple, browser-based interface for quick interactions.
 
-Works locally after setup — no internet needed.
+Works locally after setup — no internet required.
 
 Supports a dataset of over 20 million ratings and 27,000+ movies.
 
+View detailed information about each movie, including overview, genres, release date, runtime, and ratings.
+
 📂 Project Structure
-
-Main Application File – Handles routes, requests, and responses.
-
-Algorithm File – Contains the movie recommendation logic.
-
-Dataset Folder – Contains MovieLens CSV files (movies.csv, ratings.csv, etc.).
-
-Templates Folder – HTML files for the web interface.
-
-Static Folder – CSS, images, and other assets.
+Flask-Movie-Recommender/
+│
+├─ app.py                  # Main Flask application (routes, requests, responses)
+├─ recommender.py          # Movie recommendation logic (TF-IDF, cosine similarity)
+├─ utils/                  # Helper scripts (optional preprocessing, CSV loading)
+├─ assets/                 # CSV datasets (tmdb_5000_movies.csv, ratings.csv, etc.)
+├─ templates/              # HTML templates (index.html, results.html, movie_details.html)
+├─ static/                 # CSS, JavaScript, and other static assets
+├─ venv/                   # Python virtual environment
+├─ requirements.txt        # Python dependencies
+└─ README.md               # Project documentation
 
 🛠 Installation & Setup
 1. Clone or Download the Project
-
-Get the project files from your repository or ZIP archive.
+git clone <your-repo-url>
+cd Flask-Movie-Recommender
 
 2. Install Dependencies
 
-Ensure you have Python installed, then install required packages such as
-Flask, Pandas, and Scikit-learn.
+Ensure you have Python 3.8+ installed, then install the required packages:
+
+pip install -r requirements.txt
+
+
+Key packages: Flask, pandas, scikit-learn, numpy
 
 3. Prepare the Dataset
 
-Download the MovieLens 20M Dataset from GroupLens:
-🔗 MovieLens 20M Dataset
+Download the MovieLens 20M Dataset from GroupLens.
 
-From the downloaded ZIP file:
+Extract the following files:
 
-Extract movies.csv (movie metadata) and ratings.csv (user ratings).
+movies.csv – movie metadata
 
-Place them inside the data folder in your project directory.
+ratings.csv – user ratings
+
+Place them inside the assets/ folder of your project directory.
 
 🚀 Running the Application
 
 Open a terminal in the project directory.
 
-Start the Flask application.
+Start the Flask app:
 
-Open the provided local URL in your browser.
+python app.py
+
+
+Open the local URL in your browser (default: http://127.0.0.1:5000/).
 
 Enter a movie title in the search box to see recommendations.
 
 🧠 How It Works
 
-Data Loading – The app loads movies and ratings from the dataset.
+Data Loading – Loads movies and ratings from the CSV dataset.
 
-Feature Engineering – Builds feature vectors from genres or aggregated user preferences.
+Feature Engineering – Builds TF-IDF vectors from movie overviews and optionally other textual features like genres or keywords.
 
-Similarity Calculation – Uses cosine similarity to find the most similar movies.
+Similarity Calculation – Uses cosine similarity to find movies that are most similar in content.
 
-Recommendation – Displays the top N similar movies to the one entered.
+Recommendation – Returns the top N similar movies and displays them on a results page.
 
 📷 User Flow
 
-Step 1: User searches for a movie title.
+User searches for a movie title.
 
-Step 2: System finds similar movies based on content features and/or user ratings.
+System finds similar movies based on content features.
 
-Step 3: Similar movies are displayed on a results page.
+Recommended movies are displayed on a results page.
 
-Step 4: User can return to search for another movie.
+User can click a movie to view full details or return to search for another movie.
 
 📦 Technologies Used
 
 Flask – Backend web framework.
 
-Pandas – Data processing.
+Pandas – Data processing and manipulation.
 
-Scikit-learn – Similarity computation.
+Scikit-learn – TF-IDF vectorization and cosine similarity computation.
 
-HTML/CSS – Frontend.
+HTML/CSS – Frontend interface.
 
 MovieLens 20M Dataset – Source of movies and ratings.
 
 🔮 Future Improvements
 
-Implement collaborative filtering using user ratings for more personalized results.
+Implement collaborative filtering using user ratings for more personalized recommendations.
 
-Display movie posters via an API like TMDb.
+Display movie posters using APIs like TMDb.
 
 Add pagination for large result lists.
 
 Deploy online using Heroku, Render, or Streamlit Cloud.
 
-Enhance UI with Bootstrap or Tailwind CSS.
+Enhance UI with Bootstrap, Tailwind CSS, or Material UI.
+
+Allow users to save favorites or create a watchlist.
 
 🙌 Acknowledgements
 
 MovieLens 20M Dataset by GroupLens Research.
 
-Scikit-learn for machine learning tools.
+Scikit-learn for ML tools.
 
-Flask for the web framework.
+Flask for the web framework and routing.
